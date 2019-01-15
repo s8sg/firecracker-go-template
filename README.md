@@ -13,7 +13,7 @@ docker
 firecracker
 firectl
 ```
-Get firecracker kernel
+**Get firecracker kernel**
 ```bash
 curl -fsSL -o /tmp/hello-vmlinux.bin https://s3.amazonaws.com/spec.ccfc.min/img/hello/kernel/hello-vmlinux.bin
 ```
@@ -42,7 +42,7 @@ sudo iptables -A FORWARD -i tap0 -o $DEVICE_NAME -j ACCEPT
 make
 ```
 
-### Write your simple golang application  
+## Write your simple golang application  
    
 ##### 1. Write your demo go application
 ```bash
@@ -81,7 +81,8 @@ sudo firectl \
    --kernel-opts="console=ttyS0 noapic reboot=k panic=1 pci=off nomodules rw" 
 ```
     
-### Write your golang Http Server (need tap device setup)
+## Write your golang Http Server (need tap device setup)
+   
 ##### 1. Write your demo go application
 ```bash
 mkdir demo
@@ -110,7 +111,7 @@ EOF
 ./build ./demo my_root_fs 172.20.0.2/24 172.20.0.1
 ```
    
-#### 3. Use `firectl` to run firecracker with your rootfs
+##### 3. Use `firectl` to run firecracker with your rootfs
 ```bash
 MAC="$(cat /sys/class/net/tap0/address)"
 ROOTFS="$(readlink -f my_root_fs)"
@@ -121,7 +122,7 @@ sudo firectl \
    --tap-device=tap0/$MAC
 ```
 
-#### 4. Test your application server
+##### 4. Test your application server
 ```bash
 curl http://172.20.0.2:8080/firecracker
 ```
