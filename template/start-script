@@ -2,7 +2,14 @@
 rc-service sysfs start
 rc-service networking start
 
+# Set up interface
+source /usr/buildenv
+echo Setting up IP: $IP gateway: $GATEWAY
+ifconfig eth0 up && ip addr add dev eth0 $IP
+ip route add default via $GATEWAY
+
 # run program. the firecracker compiler would place this here.
+echo Running user program
 /usr/local/bin/program
 
 # shutdown firecracker

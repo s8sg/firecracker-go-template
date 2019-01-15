@@ -23,7 +23,10 @@ cd $CODEDIR
 go get -d -v ./...
 CGO_ENABLED=0 go build -o /tmp/tmp/usr/local/bin/program
 
-# not using gopath.. so no need for: cp /go/bin/* /tmp/tmp/usr/local/bin/program
+cat > /tmp/tmp/usr/buildenv <<EOF
+IP=$IP
+GATEWAY=$GATEWAY
+EOF
 
 cat > /tmp/tmp/prepare.sh <<EOF
 passwd root -d root

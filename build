@@ -1,11 +1,26 @@
 #!/bin/bash
 
+if [ "$#" -eq 0 ]; then
+	    echo "Illegal number of parameters"
+	    echo "build <program-dir> <roofs-filename>"
+	    echo "or build <program-dir> <roofs-filename> <ip-with-mask> <gateway>"
+	    exit 1
+fi
+
 if [ $1 == 'help' ]; then
-	echo "build <program-dir> <roofs-filename>"
+	echo "build <program-dir> <roofs-filename> <ip-with-mask> <gateway>"
+	exit 0
 fi
 
 CODEDIR="$(readlink -f $1)"
-docker run --rm --privileged -v $CODEDIR:/opt/code s8sg/firecracker-go-template:0.1.0
+
+if [ "$#" -eq 4 ]; then
+	docker run --rm --privileged --env IP=$3 --env GATEWAY=$4 -v $CODEDIR:/opt/code s8sg/firecracker-go-template:0.1.0
+fi
+if [ "$#" -eq 2 ]; then
+	docker run --rm --privileged -v $CODEDIR:/opt/code s8sg/firecracker-go-template:0.1.0
+fi
+
 ROOTFSDIR="$(readlink -f $2)"
-cp $CODEDIR/rootfs $ROOTFSDIR
+mv $CODEDIR/rootfs $ROOTFSDIR
 echo "Root filesystem created as: $ROOTFSDIR"
