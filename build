@@ -1,0 +1,11 @@
+#!/bin/bash
+
+if [ $1 == 'help' ]; then
+	echo "build <program-dir> <roofs-filename>"
+fi
+
+CODEDIR="$(readlink -f $1)"
+docker run --rm --privileged -v $CODEDIR:/opt/code s8sg/firecracker-go-template:0.1.0
+ROOTFSDIR="$(readlink -f $2)"
+cp $CODEDIR/rootfs $ROOTFSDIR
+echo "Root filesystem created as: $ROOTFSDIR"
