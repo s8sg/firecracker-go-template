@@ -1,7 +1,7 @@
 # firecracker-go-template
 Builds firecracker filesystem with provided Go application   
    
-> This repository is a direct copy and edit on UNIK's firecracker compiler  
+> This repository is a direct copy and edit on **UNIK's firecracker compiler**  
 > For more details on UNIK click [here](https://github.com/solo-io/unik)  
   
   
@@ -12,12 +12,12 @@ Prerequisites
 docker
 ```
    
-Build docker image
+#### 1. Build docker image
 ```bash
 make
 ```
    
-Write your simple demo golang Application
+#### 2. Write your simple demo golang Application
 ```bash
 mkdir demo
 cat > demo/main.go <<EOF
@@ -40,17 +40,17 @@ func main() {
 EOF
 ```
     
-Build root filesystem using `build` script
+#### 3. Build root filesystem using `build` script
 ```bash
 ./build ./demo my_root_fs
 ```
    
-Get firecracker kernel
+#### 4. Get firecracker kernel
 ```bash
 curl -fsSL -o /tmp/hello-vmlinux.bin https://s3.amazonaws.com/spec.ccfc.min/img/hello/kernel/hello-vmlinux.bin
 ```
    
-Use `firectl` to run firecracker with your rootfs
+#### 5. Use `firectl` to run firecracker with your rootfs
 ```bash
 ROOTFS="$(readlink -f my_root_fs)"
 sudo firectl   --kernel=/home/vanu/hello-vmlinux.bin   --root-drive=$ROOTFS   --kernel-opts="console=ttyS0 noapic reboot=k panic=1 pci=off nomodules rw"
